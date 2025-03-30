@@ -74,16 +74,16 @@ def download_genome(species, quiet=False):
             print(f"The fasta file for this bacterial species {species} was not found.")
         return None
 
-def load_fasta_from_directory(species, quiet=False):
+def load_fasta_from_directory(fastas, quiet=False):
     """Look for the .fa/.fa.gz file in the FASTA DIR directory"""
     for ext in [".fa", ".fa.gz"]:
-        local_file = os.path.join(FASTA_DIR, f"{species}{ext}")
+        local_file = os.path.join(FASTA_DIR, f"{fastas}{ext}")
         if os.path.exists(local_file):
             if not quiet:
                 print(f"Found local FASTA file: {local_file}")
             return local_file
     if not quiet:
-        print(f"Warning: No FASTA file found for {species} in {FASTA_DIR}")
+        print(f"Warning: No FASTA file found for {fastas} in {FASTA_DIR}")
     return None
 
 def process_fasta(species_or_file, patterns, mode, reverse=False, quiet=False):
