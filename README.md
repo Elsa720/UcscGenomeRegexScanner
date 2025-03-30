@@ -1,5 +1,7 @@
 # UcscGenomeRegexScanner
 
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Elsa720/UcscGenomeRegexScanner/blob/main/LICENSE)
+
 ## Description
 
 `UscsGenomeRegexScanner.py` is a script used to scan multiple genome or user-defined FASTA files in the specified regular expression pattern. It supports both sense and anti-sense strand matching and generates a standard BED file to record the matching results.
