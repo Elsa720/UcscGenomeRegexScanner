@@ -1,2 +1,0 @@
-tmp_hs1_100_test
-tmp_fragment_100_test

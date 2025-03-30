@@ -1,3 +1,0 @@
-Fasta file,Pattern,Total Matches Counts,Matched Bases,Total FASTA File Bases,Bases Occupancy Rate (%)
-hg38.fa.gz,"([cC]{3,}\w{1,12}){3,}[cC]{3,}",759869,27935931,3209286105,0.8704718147900996
-mm10.fa.gz,"([cC]{3,}\w{1,12}){3,}[cC]{3,}",786458,32426269,2730871774,1.1873962486530134

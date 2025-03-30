@@ -20,40 +20,41 @@
 ### Command line options
 
 ```bash
--h, --help            show this help message and exit
+-h, --help            show this help message and exit.
   --species SPECIES [SPECIES ...], -s SPECIES [SPECIES ...]
-                        Name list of species (e.g., hg38 mm10)
+                        Name list of species (e.g., hg38 mm10).
   --species-list SPECIES_LIST, -sl SPECIES_LIST
-                        Path to a text file with species names (one per line)
+                        Path to text files with species names (one per line).
   --fasta FASTA, -f FASTA
-                        Name list to a specific FASTA file in ./fasta/ path
+                        Name list to the specific FASTA files of ./fasta/ path.
   --fasta-list FASTA_LIST, -fl FASTA_LIST
-                        Path to a text file containing FASTA file names (one per line)
+                        Path to the text files containing FASTA files names (one per line).
   --patterns PATTERNS [PATTERNS ...], -p PATTERNS [PATTERNS ...]
-                        List of regular expressions for searching motifs, the case is ignored
+                        List of regular expressions of searching motifs, the cases are ignored.
   --patterns-list PATTERNS_LIST, -pl PATTERNS_LIST
-                        Path to a text file with regular expressions (one per line)
+                        Path to the text files with regular expressions (one per line).
   --quiet, -q           Do not print any progress report during the task running(optional, default FALSE).
   --reverse, -r         Enable reverse complement strand search(optional, default FALSE).
   --output-csv OUTPUT_CSV, -o OUTPUT_CSV
-                        Path to output CSV file(optional)
-
-Optional arguments notes:
-1. If the argument of --species/-s or --species-list/-sl is chosen,
-    - the species name involved must be a species name that can be retrieved from the genome fasta file on the ucsc website to successfully access genome files.
-    - if run successfully, downloaded species genome .fa.gz files will be stored in the./fasta/ directory.
-2. In order to expand the usability of this script, the argument of --fasta/-f and --fasta-list/-fl to allow users to customize the upload fasta file for sequence retrieval.
-    - For custom fasta files, you have to create a new ./fasta/ directory and store the interested fasta files in it first to let the script recognize successfully.
-    - If the argument of --fasta/-f and --fasta-list/-fl is chosen, you only need to follow the argument with the name of the file in .fa or .fa.gz format instead of the entire file path.
-    - To run the script successfully, one of the four arguments --species/-s, --species-list/-sl, --fasta/-f and --fasta-list/-fl must be selected.
-3. If the argument of --reverse or -r is chosen,
-    - the coordinate information of the antisense chain in bed file maps the coordinate information of the justice chain in the direction of 5'-3', and the sequence information of the antisense chain in bed file is output in the direction of 5'-3'.
-4. If the argument of --output-csv or -o is chosen,
-    - the final summary included the matching counts, matching bases, whole genome/fasta file bases and base occupancy rate(%) will be exported to a csv file.
+                        Path to output CSV file(optional).
 
 ```
 
-### Output file
+Optional arguments notes:
+
+1. If the argument of `--species/-s` or `--species-list/-sl` is chosen,
+    - the species name involved must be a species name that can be retrieved from the genome fasta file on the ucsc website to successfully access genome files.
+    - downloaded species genome .fa.gz files will be stored in the `./fasta/` directory if run successfully.
+2. In order to expand the usability of this script, the argument of `--fasta/-f` and `--fasta-list/-fl` to allow users to customize the upload fasta file for sequence retrieval.
+    - For custom fasta files, you have to create a new `./fasta/` directory and store the interested fasta files in it first to let the script recognize successfully.
+    - If the argument of `--fasta/-f` and `--fasta-list/-fl` is chosen, you only need to follow the argument with the name of the file in `.fa` or `.fa.gz` format instead of the entire file path.
+    - To run the script successfully, one of the four arguments `--species/-s`, `--species-list/-sl`, `--fasta/-f` and `--fasta-list/-fl` must be selected.
+3. If the argument of `--reverse` or `-r` is chosen,
+    - the coordinate information of the antisense chain in bed file maps the coordinate information of the justice chain in the direction of 5'-3', and the sequence information of the antisense chain in bed file is output in the direction of 5'-3'.
+4. If the argument of `--output-csv` or `-o` is chosen,
+    - the final summary included the matching counts, matching bases, whole genome/fasta file bases and base occupancy rate(%) will be exported to a csv file.
+
+### Output file Format
 
 Bed files are automatically saved in the `./bed_files/` directory. Each regular expression pattern generates a BED file in the format of `[genome or FASTA file name]_[simplified regular expression pattern].bed`,the columns contains:
 
@@ -72,30 +73,34 @@ The coordinate information of the antisense chain maps the coordinate informatio
 The csv file will be exported automatically after selecting the `--output-csv` or `-o` arguments + `output file path`. The file will summarize all the matching results of each fasta file, which contains:
 
 ```bash
-1. Fasta file: genome file or fasta file user-defined.
-2. Pattern: regular expressions user-defined.
-3. Total Matches Counts: the number of each regular expressions retrieved in each fasta file
+1. Fasta file: genome files or fasta files user-defined
+2. Pattern: regular expressions user-defined
+3. Total Matches Counts: the number of each regular expressions retrieved of fasta files
 4. Matched Bases: the number of sequence bases that match the regular expression
-5. Total FASTA File Bases: the number of FASTA file sequence bases
+5. Total FASTA File Bases: the number of FASTA files sequence bases
 6. Bases Occupancy Rate (%): 100 * Matched Bases/Total FASTA File Bases, the occupancy rate of the regular expression
 ```
 
 ### Basic Example
 
+*take the regular expressions of i-motif structure for example.*
+
 1. Scan multiple UCSC species genomes
 
 ``` bash
-python ./UcscGenomeRegexScanner.py --species hg38 mm39 --patterns "C{3,}" "G{4,}" --reverse
+python ./UcscGenomeRegexScanner.py --species hg38 mm39 --patterns "([cC]{3,}\w{1,12}){3,}[cC]{3,}" "([cC]{2,2}\w{1,5}){3,}[cC]{2,2}" --reverse
 ```
 
 At present, most of the genomes of eukaryotes and bacteria can be successfully downloaded.
-2. Scan local FASTA files
+
+2. Scan the local FASTA files
 
 ``` bash
-python ./GenomeRegexScanner.py --fasta example --patterns "C{3,}" "G{4,}" --reverse
+python ./GenomeRegexScanner.py --fasta example --patterns "([cC]{3,}\w{1,12}){3,}[cC]{3,}" "([cC]{2,2}\w{1,5}){3,}[cC]{2,2}" --reverse
 ```
 
 Make sure the `example.fa` or `example.fa.gz` file can be found in `./fasta/` directory before running this command.
+
 3. Load species and regular expressions from file (if a lot of searching is required)
 
 ``` bash
@@ -103,15 +108,16 @@ python  ./GenomeRegexScanner.py  --species-list  ./species.txt --patterns-list .
 ```
 
 `./species.txt` or `./patterns.txt` is a text file with species names or regular expressions, one per line.
+
 4. Save the results to a CSV file
 
 ``` bash
-python  ./GenomeRegexScanner.py --species hg38 --patterns "C{3,}" --output-csv ./results.csv
+python  ./GenomeRegexScanner.py --species hg38 --patterns "([cC]{3,}\w{1,12}){3,}[cC]{3,}" --output-csv ./results.csv
 ```
 
 The result contained the bases occupancy infomation will be save to the `./results.csv`.
 
-Other Matters Needing Attention:
+Other Attention:
 
 - **Network connection:** If scanning the UCSC genome, make sure the network connection is accessable.
 - **File path:** Ensure that the fasta and bed files directories have write permission.
@@ -133,8 +139,15 @@ or
 conda install -c conda-forge biopython
 ```
 
+Once you installed the package successfully, then use this command to download and use this script.
+
+``` bash
+wget https://raw.githubusercontent.com/Elsa720/UcscGenomeRegexScanner/refs/heads/main/UcscGenomeRegexScanner.py -O UcscGenomeRegexScanner.py
+chmod +x ./UcscGenomeRegexScanner.py 
+```
+
 ## Acknowledgment and Contribution
 
 This script refers to the previous script [fastaRegexFinder.py](https://github.com/dariober/bioinformatics-cafe/tree/master/fastaRegexFinder) on the regular expression of the reverse chain. Thanks for the contribution to this script!
 
-If you have any other questions or suggestions, please feel free to open an issue. We appreciate everyone's contribution!
+If you have any other question or suggestion, please feel free to open an issue. We appreciate everyone's contribution!

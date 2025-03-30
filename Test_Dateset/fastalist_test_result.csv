@@ -1,3 +1,0 @@
-Fasta file,Pattern,Total Matches Counts,Matched Bases,Total FASTA File Bases,Bases Occupancy Rate (%)
-tmp_hs1_100_test.fa,"([cC]{3,}\w{1,12}){3,}[cC]{3,}",743071,27784680,3117292070,0.8913082052013176
-tmp_fragment_100_test.fa,"([cC]{3,}\w{1,12}){3,}[cC]{3,}",4,978,50100,1.9520958083832336

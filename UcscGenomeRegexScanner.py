@@ -26,7 +26,7 @@ Main changes:
     >chr1 (default is genome fa, starting from 0) 
     >chr1:1-100 (Check whether the header includes: -, if there is, it is considered to be fragmented sequence fa, and the start-1 is converted to 0-based before processing)
 
-multi-threading is not implemented.
+Multi-threading has not been implemented yet.
 '''
 
 FASTA_DIR = "fasta"
@@ -121,7 +121,6 @@ def reverse_complement(seq):
     return ''.join(compdict[n] for n in seq[::-1])
 
 def process_fasta_file(fasta_file, patterns, reverse=False, quiet=False):
-    """处理 fasta 文件，匹配正则表达式并生成 BED 文件"""
     if not os.path.exists(fasta_file):
         if not quiet:
             print(f"Skipping {fasta_file} due to missing file.")
